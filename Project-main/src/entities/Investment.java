@@ -3,6 +3,9 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+// This is an example of a Java class that represents an investment.
+// An investment has a name, a value, and a growth rate.
+
 public class Investment {
     private String name;
     private double value;

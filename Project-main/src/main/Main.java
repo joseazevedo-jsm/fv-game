@@ -10,6 +10,7 @@ import entities.Player;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            // Initialize game entities
             Account account = Account.getInstance();
             Player player = Player.getInstance();
             Investment investment = new Investment();

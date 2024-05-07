@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -22,12 +21,7 @@ import java.time.format.DateTimeFormatter;
 // Need to setup back button 
 // Maybe take the structe of MainState code?
 public class InventoryState implements GameState {
-    private JLabel bankBalanceLabel;
-    private JLabel cashOnHandLabel;
     private GameStateManager gsm;
-    private Player player;
-    private Account account;
-    private Inventory inventory;
     private JLabel nameLabel;
     private JLabel ageLabel;
     private JLabel monthLabel;
@@ -35,8 +29,6 @@ public class InventoryState implements GameState {
     private JLabel moneyLabel;
     private JLabel investmentLaLabel;
     private JLabel itemLsabel;
-    private JList<String> ownedItemsList;
-    private JList<String> investmentsList;
     private BufferedImage backgroundImage;
 
 
@@ -90,26 +82,7 @@ public class InventoryState implements GameState {
         panel.repaint();
     }
 
-
-    
     // View the montly earnings here, how much you make!!! (see the account.java to see the neccessary method)
-    private void setupMainMenuUI(GamePanel panel) {
-        JButton backButton = new JButton("Back");
-
-
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(backButton);
-
-        panel.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Configure action listeners for each button
-        backButton.addActionListener(e -> {
-            System.out.println("Back button clicked");
-            gsm.setState(new MainState(gsm), panel);
-        });
-    }
-
     private JPanel createInventoryPanel(Inventory inventory,Account bankAccount, Player player ) {
         JPanel inventoryPanel = new JPanel(new BorderLayout());
         LocalDate currentDate = LocalDate.now();
@@ -167,23 +140,6 @@ public class InventoryState implements GameState {
     
         inventoryPanel.add(playerInfoPanel);
 
-        // inventoryPanel.add(new JLabel("Owned Items:"));
-        // inventoryPanel.add(ownedItemsList);
-        // inventoryPanel.add(new JLabel("Investments:"));
-        // inventoryPanel.add(investmentsList);
-
-        // bankBalanceLabel = new JLabel("Balance: " + bankAccount.getBankBalance());
-        // bankBalanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        // bankBalanceLabel.setForeground(Color.BLACK);
-        // bankBalanceLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        // balancePanel.add(bankBalanceLabel, BorderLayout.CENTER);
-
-        // cashOnHandLabel = new JLabel("Cash on Hand: " + bankAccount.getCashOnHand());
-        // cashOnHandLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        // cashOnHandLabel.setForeground(Color.BLACK);
-        // cashOnHandLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        // balancePanel.add(cashOnHandLabel, BorderLayout.SOUTH);
-
         return inventoryPanel;
     }
 
@@ -217,28 +173,6 @@ public class InventoryState implements GameState {
         g2d.drawImage(scaledImage, 0, 0, null);
         g2d.dispose();
         return newImage;
-    }
-
-    private JButton setupButton(String text, JTextField field, JLabel messageLabel, Account bankAccount, boolean isDeposit) {
-        JButton button = new JButton(text);
-        button.setForeground(Color.BLACK);
-        button.setFont(new Font("Serif", Font.BOLD, 28));
-        button.addActionListener(e -> {
-            try {
-                int amount = Integer.parseInt(field.getText());
-                if (isDeposit) {
-                    bankAccount.deposit(amount);
-                } else {
-                    bankAccount.withdraw(amount);
-                }
-                // updateBalanceLabels(bankAccount);
-                messageLabel.setText(text + ": " + amount);
-            } catch (IllegalArgumentException ex) {
-                messageLabel.setText(ex.getMessage());
-            }
-            field.setText("");
-        });
-        return button;
     }
 
     @Override

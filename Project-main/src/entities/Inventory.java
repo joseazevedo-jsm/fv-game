@@ -17,6 +17,8 @@ public class Inventory {
     public Inventory() {
         ownedItems = new ArrayList<>();
         ownedInvestments = new ArrayList<>();
+
+        // Add some default items and investments to the inventory.
         ownedItems.add(new Apartment());
         ownedItems.add(new House());
         ownedItems.add(new Mansion());
@@ -27,43 +29,33 @@ public class Inventory {
     
     // Methods:
 
-    // addItem
-    public void addItem(Item item) {
+     // addItem adds an item to the inventory.
+     public void addItem(Item item) {
         ownedItems.add(item);
     }
 
-    // sellItem
+    // sellItem removes an item from the inventory.
     public void sellItem(Item item) {
         ownedItems.remove(item);
     }
 
-    // addInvestment
+    // addInvestment adds an investment to the inventory.
     public void addInvestment(Investment investment) {
         ownedInvestments.add(investment);
     }
 
-    // sellInvestment
+    // sellInvestment removes an investment from the inventory.
     public void sellInvestment(Investment investment) {
         ownedInvestments.remove(investment);
     }
 
-    // getItems
+    // getItems returns the list of items in the inventory.
     public List<Item> getOwnedItems() {
         return ownedItems;
     }
-    // getInvestments
+
+    // getInvestments returns the list of investments in the inventory.
     public List<Investment> getOwnedInvestments() {
         return ownedInvestments;
     }
-
-    // Constructor
-
-    // Methods:
-
-    // addItem
-
-    // useItem?
-
-    // sellItem
-
 }

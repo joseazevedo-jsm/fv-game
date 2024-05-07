@@ -17,6 +17,7 @@ public class Game implements Runnable {
     public Game(Inventory inventory, Investment investment, Player player, Account account) {
         // Main game panel using GameStateManager
         this.gsm = new GameStateManager();
+        // Create a new instance of the GamePanel class and pass it the inventory, investment, player, account, and gsm objects.
         this.panel = new GamePanel(inventory, investment, player, account, gsm); 
         this.window = new GameWindow("My Game", panel);
 
