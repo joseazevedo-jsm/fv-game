@@ -13,14 +13,50 @@ public class InventoryState implements GameState {
     private JLabel bankBalanceLabel;
     private JLabel cashOnHandLabel;
     private GameStateManager gsm;
+    private Player player;
+    private Account account;
+    private Inventory inventory;
+    private JLabel nameLabel;
+    private JLabel ageLabel;
+    private JLabel monthLabel;
+    private JLabel yearLabel;
+    private JLabel moneyLabel;
+    private JList<String> ownedItemsList;
+    private JList<String> investmentsList;
 
     public InventoryState(GameStateManager gsm) {
         this.gsm = gsm;
+         super(gsm);
+        // Initialize player, account, and inventory objects
+        player = Player.getInstance();
+        account = player.getAccount();
+        inventory = player.getInventory();
+        // Create UI elements
+        nameLabel = new JLabel("Name: " + player.getName());
+        ageLabel = new JLabel("Age: " + player.getAge());
+        monthLabel = new JLabel("Month: " + player.getMonth());
+        yearLabel = new JLabel("Year: " + player.getYear());
+        moneyLabel = new JLabel("Money: " + account.getBalance());
+        ownedItemsList = new JList<>(inventory.getOwnedItems().toArray());
+        investmentsList = new JList<>(inventory.getInvestments().toArray());
+        // Set up the layout
+        JPanel panel = new JPanel(new GridLayout(7, 2));
+        panel.add(nameLabel);
+        panel.add(ageLabel);
+        panel.add(monthLabel);
+        panel.add(yearLabel);
+        panel.add(moneyLabel);
+        panel.add(new JLabel("Owned Items:"));
+        panel.add(ownedItemsList);
+        panel.add(new JLabel("Investments:"));
+        panel.add(investmentsList);
+        add(panel);
     }
 
     @Override
     public void enter(GamePanel panel) {
         panel.removeAll(); // Clear the panel first
+        panel.add(this);
         // panel.add(createBalancePanel(panel.getBankAccount()), BorderLayout.NORTH);
         // panel.add(createActionPanel(panel.getBankAccount()), BorderLayout.CENTER);
         setupMainMenuUI(panel);
@@ -114,17 +150,34 @@ public class InventoryState implements GameState {
     @Override
     public void update() {
         // Update logic for the banking state
+        player = Player.getInstance();
+        account = player.getAccount();
+        inventory = player.getInventory();
+        // Update the UI elements with the new information
+        nameLabel.setText("Name: " + player.getName());
+        ageLabel.setText("Age: " + player.getAge());
+        monthLabel.setText("Month: " + player.getMonth());
+        yearLabel.setText("Year: " + player.getYear());
+        moneyLabel.setText("Money: " + account.getBalance());
+        ownedItemsList.setListData(inventory.getOwnedItems().toArray());
+        investmentsList.setListData(inventory.getInvestments().toArray());
     }
 
     @Override
     public void draw(Graphics g) {
         // Draw on the panel if additional custom drawing is needed
+         g.drawImage(backgroundImage, 0, 0, null);
+        // Draw the panel with the player's information
+        panel.paint(g);
     }
 
     @Override
     public void exit() {
         // Cleanup when exiting the banking state
+        this.getParent().remove(this);
     }
+
+    
 
     public static class IntegerInputVerifier extends InputVerifier {
         @Override
