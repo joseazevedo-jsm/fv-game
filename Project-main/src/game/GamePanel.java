@@ -1,5 +1,9 @@
 package game;
 import entities.Account;
+import entities.Inventory;
+import entities.Investment;
+import entities.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,15 +13,33 @@ import java.awt.*;
 public class GamePanel extends JPanel {
     private GameStateManager gsm;
     private Account bankAccount;
+    private Player player;
+    private Investment investment;
+    private Inventory inventory;
 
-    public GamePanel(Account bankAccount, GameStateManager gsm) {
+    public GamePanel(Inventory inventory, Investment investment, Player player, Account bankAccount, GameStateManager gsm) {
+        this.player = player;
         this.bankAccount = bankAccount;
+        this.investment = investment;
+        this.inventory = inventory;
         this.gsm = gsm;
         setLayout(new BorderLayout());
     }
 
     public Account getBankAccount() {
         return bankAccount;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Investment getInvestment() {
+        return investment;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     /**

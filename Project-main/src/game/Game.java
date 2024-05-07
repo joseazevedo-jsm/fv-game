@@ -4,20 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 import entities.Account;
+import entities.Inventory;
+import entities.Investment;
+import entities.Player;
 
 public class Game implements Runnable {
     private GameWindow window;
     private GamePanel panel;
     private GameStateManager gsm;
-    private Account account;
     private Thread gameThread;
 
-    public Game(Account account) {
-        this.account = account;
-
+    public Game(Inventory inventory, Investment investment, Player player, Account account) {
         // Main game panel using GameStateManager
         this.gsm = new GameStateManager();
-        this.panel = new GamePanel(account, gsm); 
+        this.panel = new GamePanel(inventory, investment, player, account, gsm); 
         this.window = new GameWindow("My Game", panel);
 
         InvestmentsState investmentsState = new InvestmentsState(gsm);
