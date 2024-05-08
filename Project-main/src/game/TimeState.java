@@ -120,6 +120,13 @@ public class TimeState implements GameState {
         ageLabel.setText("Age: " + player.getAge());
         currentMonthLabel.setText("Current Month: " + timeController.getCurrentMonth());
         lastMonthEarningsLabel.setText("Last Month's Earnings: $" + account.getMonthlyEarnings());
+
+        // Update time based on time controller
+        yearLabel.setText("Year: " + timeController.getCurrentYear());
+        // Increase player age
+        player.increaseAge();
+        ageLabel.setText("Age: " + player.getAge());
+
     }
 
     @Override
