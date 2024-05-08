@@ -39,7 +39,7 @@ public class TimeController {
         return months[player.getMonth() % 12];  // Cycle through months with modulus
     }
 
-     public int getCurrentYear() {
-        return player.getYear();
-    }
+    //  public int getCurrentYear() {
+    //     return player.getYear();
+    // }
 }

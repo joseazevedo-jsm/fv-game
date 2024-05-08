@@ -1,6 +1,9 @@
 package game;
 
 import entities.Account;
+import entities.Inventory;
+import items.Stock;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,12 +20,14 @@ public class InvestmentsState implements GameState, TimeObserver {
     private Map<String, Stock> stocks = new HashMap<>();
     //private Map<String, Property> properties = new HashMap<>();
     private Account account;
+    private Inventory inventory;
     private JLabel bankBalanceLabel;
     private BufferedImage backgroundImage;
 
     public InvestmentsState(GameStateManager gsm) {
         this.gsm = gsm;
         this.account = Account.getInstance();
+        this.inventory = Inventory.getInstance();
         initStocks();
         //initProperties();
         loadImage();
@@ -227,6 +232,8 @@ public class InvestmentsState implements GameState, TimeObserver {
     private void buyStock(Stock stock) {
         String quantityString = JOptionPane.showInputDialog(panel, "Enter quantity to buy for " + stock.getName() + ":", "Stock Purchase", JOptionPane.PLAIN_MESSAGE);
         handlePurchase(quantityString, stock.getCurrentValue(), quantity -> stock.purchaseStock(quantity));
+        inventory.addInvestment(stock);
+        System.out.println("Stock purchased: " + inventory.getOwnedInvestments());
     }
 
     //private void buyProperty(Property property) {
@@ -274,51 +281,6 @@ public class InvestmentsState implements GameState, TimeObserver {
     @Override
     public void exit() {
         // Cleanup if needed
-    }
-
-    class Stock {
-        private String name;
-        private double baseValue;
-        private double currentValue;
-        private double fluctuation; // Percentage change
-        private boolean priceUpdated = false;
-        private int quantityOwned; // New field to track quantity owned
-        private JButton button; // Button linked to this stock
-
-        public Stock(String name, double baseValue, double fluctuation) {
-            this.name = name;
-            this.baseValue = baseValue;
-            this.currentValue = baseValue;
-            this.fluctuation = fluctuation;
-            this.quantityOwned = 0; // Initialize with zero owned
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public double getCurrentValue() {
-            return currentValue;
-        }
-
-        public int getQuantityOwned() {
-            return quantityOwned;
-        }
-
-        public void setButton(JButton button) {
-            this.button = button;
-            updatePrice();  // Initial setting to reflect current value
-        }
-
-        public void updatePrice() {
-            double changeFactor = (Math.random() * (fluctuation * 2)) - fluctuation;
-            currentValue = Math.round(currentValue * (1 + changeFactor));
-            button.setText("Buy " + name + " - Current Value: $" + currentValue); // Complain about this, because "this.button" is null
-        }
-
-        public void purchaseStock(int quantity) {
-            quantityOwned += quantity; // Increment by the purchased quantity
-        }
     }
 
     // class Property {

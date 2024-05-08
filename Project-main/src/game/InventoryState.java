@@ -2,9 +2,9 @@ package game;
 
 import entities.Account;
 import entities.Inventory;
-import entities.Investment;
 import entities.Player;
 import items.Item;
+import items.Stock;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -55,6 +55,10 @@ public class InventoryState implements GameState {
         panel.removeAll(); // Clear the panel first
 
         // Setup the main UI elements such as balance and action panels
+        System.out.println("Owned investments: " + panel.getInventory().getOwnedInvestments() + "Owned items: " + panel.getInventory().getOwnedItems());
+        System.out.println("Bank account: " + panel.getBankAccount());
+        System.out.println("Player: " + panel.getPlayer());
+
         JPanel allPanels = createInventoryPanel(panel.getInventory(),panel.getBankAccount(),panel.getPlayer());
         
         // Set the background if the image was loaded successfully
@@ -90,7 +94,7 @@ public class InventoryState implements GameState {
         int currentYear = currentDate.getYear();
 
         // Convert the current month to a string
-        String currentMonth = DateTimeFormatter.ofPattern("MMMM").format(currentDate);
+        String currentMonth = getCurrentMonth(player);
 
 
          // Create UI elements
@@ -117,7 +121,7 @@ public class InventoryState implements GameState {
         DefaultListModel<String> listModel2 = new DefaultListModel<>();
 
         // Add the items from the getOwnedItems list to the DefaultListModel
-        for (Investment investment : inventory.getOwnedInvestments()) {
+        for (Stock investment : inventory.getOwnedInvestments()) {
         listModel2.addElement(investment.getName());
         }
 
@@ -173,6 +177,14 @@ public class InventoryState implements GameState {
         g2d.drawImage(scaledImage, 0, 0, null);
         g2d.dispose();
         return newImage;
+    }
+
+    public String getCurrentMonth(Player player) {
+        String[] months = {
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        };
+        return months[player.getMonth() % 12];  // Cycle through months with modulus
     }
 
     @Override

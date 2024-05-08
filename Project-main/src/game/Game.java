@@ -5,7 +5,6 @@ import java.awt.*;
 
 import entities.Account;
 import entities.Inventory;
-import entities.Investment;
 import entities.Player;
 
 public class Game implements Runnable {
@@ -14,11 +13,11 @@ public class Game implements Runnable {
     private GameStateManager gsm;
     private Thread gameThread;
 
-    public Game(Inventory inventory, Investment investment, Player player, Account account) {
+    public Game(Inventory inventory, Player player, Account account) {
         // Main game panel using GameStateManager
         this.gsm = new GameStateManager();
         // Create a new instance of the GamePanel class and pass it the inventory, investment, player, account, and gsm objects.
-        this.panel = new GamePanel(inventory, investment, player, account, gsm); 
+        this.panel = new GamePanel(inventory, player, account, gsm); 
         this.window = new GameWindow("My Game", panel);
 
         InvestmentsState investmentsState = new InvestmentsState(gsm);

@@ -6,11 +6,13 @@ import items.Apartment;
 import items.House;
 import items.Item;
 import items.Mansion;
+import items.Stock;
 
 //har koll på aktierna man äger bland annat
 public class Inventory {
+    private static Inventory instance;
     private List<Item> ownedItems;
-    private List<Investment> ownedInvestments;
+    private List<Stock> ownedInvestments;
 
     // Constructor
 
@@ -21,12 +23,18 @@ public class Inventory {
         // Add some default items and investments to the inventory.
         ownedItems.add(new Apartment());
         ownedItems.add(new House());
-        ownedItems.add(new Mansion());
-        ownedInvestments.add(new Investment("Amazon", 200.0, 0.15));
-        ownedInvestments.add(new Investment("Apple", 100.0, 0.05));
+        // ownedItems.add(new Mansion());
+        // ownedInvestments.add(new Stock());
+        // ownedInvestments.add(new Stock());
     }
 
-    
+    public static Inventory getInstance() {
+        if (instance == null) {
+            instance = new Inventory();
+        }
+        return instance;
+    }
+
     // Methods:
 
      // addItem adds an item to the inventory.
@@ -40,13 +48,13 @@ public class Inventory {
     }
 
     // addInvestment adds an investment to the inventory.
-    public void addInvestment(Investment investment) {
-        ownedInvestments.add(investment);
+    public void addInvestment(Stock stock) {
+        ownedInvestments.add(stock);
     }
 
     // sellInvestment removes an investment from the inventory.
-    public void sellInvestment(Investment investment) {
-        ownedInvestments.remove(investment);
+    public void sellInvestment(Stock stock) {
+        ownedInvestments.remove(stock);
     }
 
     // getItems returns the list of items in the inventory.
@@ -55,7 +63,7 @@ public class Inventory {
     }
 
     // getInvestments returns the list of investments in the inventory.
-    public List<Investment> getOwnedInvestments() {
+    public List<Stock> getOwnedInvestments() {
         return ownedInvestments;
     }
 }
